@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    {% block styles %}
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/color-palette.png') }}"/>
+    <link href="sign-in.css" rel="stylesheet">
+
+    <!-- Load Bootstrap-Flask CSS here -->
+    {{ bootstrap.load_css() }}
+    <!-- Link to the styles.css here to apply styling to all the child templates.-->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <!-- Font Awesome icons (free version)-->
+    <script
+      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+      crossorigin="anonymous"
+    ></script>
+
+    {% endblock %}
+
+    <title>{% block title %}{% endblock %}</title>
+
+  </head>
+<body>
+
+    <div class="container my-3">
+      <div class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5">
+<!--        <button type="button" class="position-absolute top-0 end-0 p-3 m-3 btn-close bg-secondary bg-opacity-10 rounded-pill" aria-label="Close"></button>-->
+        <svg class="bi mt-2 mb-3" width="48" height="48"><use xlink:href="#check2-circle"></use></svg>
+        <h1 class="text-body-emphasis fw-bold">UPLOAD A PICTURE TO EXTRACT COLORS</h1>
+        <form action="{{ url_for('home') }}" method="POST" enctype="multipart/form-data">
+          <input type="file" name="image">
+          <input type="submit" value="Upload">
+        </form>
+        <div class="container d-block mx-lg-auto img-fluid">
+          <img  src="{{ image_path }}" alt="Uploaded Image" width="600" height="600" >
+        </div>
+        <div>
+            <button class="btn btn-primary px-5 mt-3" type="button">EXTRACT</button>
+        </div>
+        <table class="table">
+        <thead class="">
+		    <tr><th>Color</th><th>Hex Code</th></tr>
+        </thead>
+
+            <tbody class="justify-content-center">
+                {% for color in hexcode %}
+                <tr><td style="background-color: {{ color }} "></td>
+                    <td>{{ color }}</td></tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
